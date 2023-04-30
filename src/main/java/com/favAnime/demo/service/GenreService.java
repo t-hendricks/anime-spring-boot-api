@@ -118,4 +118,17 @@ public class GenreService {
             return animeRepository.save(animeObject);
         }
     }
+
+    /**
+     * Get all existing anime from specific
+     * genre inside the respository.
+     *
+     * @param genreId {Long}
+     * @return List of Anime Objects
+     */
+    public List<Anime> getGenreAnimes(Long genreId) {
+        // invoke GET endpoint to handle exception
+        Genre genre = getGenreById(genreId);
+        return genre.getAnime();
+    }
 }
