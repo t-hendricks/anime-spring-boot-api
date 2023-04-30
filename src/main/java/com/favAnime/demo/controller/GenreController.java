@@ -1,9 +1,6 @@
 package com.favAnime.demo.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController // annotated with @ResponseBody; return object in JSON
 @RequestMapping(path = "/api")
@@ -21,5 +18,12 @@ public class GenreController {
     @GetMapping(path = "/genres/{genreId}")
     public String getGenreById(@PathVariable Long genreId) {
         return "get genre with Id " + genreId;
+    }
+
+    // sample POST endpoint
+    // http://localhost:9090/api/genres
+    @PostMapping(path = "/genres")
+    public String createGenre(@RequestBody String body) {
+        return "creating a new genre with " + body;
     }
 }
