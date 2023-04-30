@@ -1,7 +1,16 @@
 package com.favAnime.demo.model;
 
+import javax.persistence.*;
+
+@Entity // JPA entity
+@Table(name = "genres") // name of table in DB
 public class Genre {
+    @Id
+    @Column
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // automatically generates PK (id)
     private Long id;
+
+    @Column
     private String name;
 
     // required for the JPA
