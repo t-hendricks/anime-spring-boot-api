@@ -28,47 +28,31 @@ public class GenreController {
         return genreService.getGenres();
     }
 
-    // sample GET endpoint
+    // GET specific genre endpoint
     // http://localhost:9090/api/genres/1
     @GetMapping(path = "/genres/{genreId}")
     public Genre getGenreById(@PathVariable Long genreId) {
-        try {
-            Optional<Genre> genre = genreRepository.findById(genreId); // findById() returns Optional
-            return genre.get();
-        } catch (RuntimeException e) {
-            throw new InformationNotFoundException("Genre with id " + genreId + " not found ");
-        }
+        return genreService.getGenreById(genreId);
     }
 
-    // sample POST endpoint
+    // POST add genre endpoint
     // http://localhost:9090/api/genres
     @PostMapping(path = "/genres")
     public Genre createGenre(@RequestBody Genre genreObject) {
-        Genre genre = genreRepository.findByName(genreObject.getName());
-        if (genre != null) {
-            throw new InformationExistException("Genre with the name " + genre.getName() + " already exist ");
-        } else {
-            return genreRepository.save(genreObject);
-        }
+        return genreService.createGenre(genreObject);
     }
 
-    // sample PUT endpoint
+    // PUT update specific genre endpoint
     // http://localhost:9090/api/genres/1
     @PutMapping(path = "/genres/{genreId}")
     public Genre updateGenre(@PathVariable Long genreId, @RequestBody Genre genreObject) {
-        // use GET endpoint to handle exception
-        Genre genre = getGenreById(genreId);
-        genre.setName(genreObject.getName());
-        return genreRepository.save(genre);
+        return genreService.updateGenre(genreId, genreObject);
     }
 
-    // sample DELETE endpoint
+    // DELETE specific endpoint
     // http://localhost:9090/api/genres/1
     @DeleteMapping(path = "/genres/{genreId}")
     public Genre deleteGenre(@PathVariable Long genreId) {
-        // use GET endpoint to handle exception
-        Genre genre = getGenreById(genreId);
-        genreRepository.delete(genre);
-        return genre;
+        return genreService.deleteGenre(genreId);
     }
 }
