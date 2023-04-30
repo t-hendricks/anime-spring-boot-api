@@ -21,14 +21,13 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final JWTUtils jwtUtils;
-    private final AuthenticationManager authenticationManager;
+    private JWTUtils jwtUtils;
+    private AuthenticationManager authenticationManager;
     private MyUserDetails myUserDetails;
 
-
+    // The passwordEncoder waits until Spring app is loaded with a 'bean'(Java Object)
     @Autowired
-    public UserService(UserRepository userRepository,
-                       @Lazy PasswordEncoder passwordEncoder,
+    public UserService(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder,
                        JWTUtils jwtUtils,
                        @Lazy AuthenticationManager authenticationManager,
                        @Lazy MyUserDetails myUserDetails) {
@@ -66,16 +65,16 @@ public class UserService {
     }
 
     public ResponseEntity<?> loginUser(LoginRequest loginRequest) {
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword());
         try {
-            Authentication authentication = authenticationManager
-                    .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             myUserDetails = (MyUserDetails) authentication.getPrincipal();
+
             final String JWT = jwtUtils.generateJwtToken(myUserDetails);
             return ResponseEntity.ok(new LoginResponse(JWT));
         } catch (Exception e) {
-            return ResponseEntity.ok(new LoginResponse("Error : user email address or password is incorrect"));
+            return ResponseEntity.ok(new LoginResponse("Error : user email or password is incorrect"));
         }
     }
 }

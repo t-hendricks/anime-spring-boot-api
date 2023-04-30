@@ -4,9 +4,12 @@ import com.favAnime.demo.exception.InformationExistException;
 import com.favAnime.demo.exception.InformationNotFoundException;
 import com.favAnime.demo.model.Anime;
 import com.favAnime.demo.model.Genre;
+import com.favAnime.demo.model.User;
 import com.favAnime.demo.repository.AnimeRepository;
 import com.favAnime.demo.repository.GenreRepository;
+import com.favAnime.demo.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,13 +31,25 @@ public class GenreService {
         this.animeRepository = animeRepository;
     }
 
+    // Class (UserService) needed to be invoked, due to static method
+    public static User getCurrentLoggedInUser() {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userDetails.getUser();
+    }
+
     /**
-     * Gets all existing genres from the repository.
+     * Gets all existing genres from the repository
+     * for current logged-in user.
      *
      * @return List of Genre Objects
      */
     public List<Genre> getGenres() {
-        return genreRepository.findAll();
+        List<Genre> genres = genreRepository.findByUserId(GenreService.getCurrentLoggedInUser().getId());
+        if (genres.isEmpty()) {
+            throw new InformationNotFoundException("No genres found for user id " + GenreService.getCurrentLoggedInUser().getId());
+        } else {
+            return genres;
+        }
     }
 
     /**

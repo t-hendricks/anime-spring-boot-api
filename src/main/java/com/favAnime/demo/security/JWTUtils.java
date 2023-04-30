@@ -10,13 +10,15 @@ import java.util.logging.Logger;
 
 @Service
 public class JWTUtils {
-    Logger logger = Logger.getLogger(JWTUtils.class.getName());
+
+    Logger logger = Logger.getLogger(JWTUtils.class.getName()); // logging in the server; i.e. JS console.log()
 
     @Value("${jwt-secret}")
     private String jwtSecret;
 
     @Value("${jwt-expiration-ms}")
     private int jwtExpirationMs;
+
 
     public String generateJwtToken(MyUserDetails myUserDetails) {
         return Jwts.builder()
@@ -27,10 +29,12 @@ public class JWTUtils {
                 .compact();
     }
 
+    // Run for every single request
     public String getUserNameFromJwtToken(String token) {
         return Jwts.parserBuilder().setSigningKey(jwtSecret).build().parseClaimsJws(token).getBody().getSubject();
     }
 
+    // Run for every single request
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
