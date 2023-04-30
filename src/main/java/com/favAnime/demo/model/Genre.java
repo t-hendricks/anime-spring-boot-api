@@ -1,5 +1,6 @@
 package com.favAnime.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -21,6 +22,12 @@ public class Genre {
     @OneToMany(mappedBy = "genre", orphanRemoval = true) // genre owns the bidirectional relationship
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Anime> anime;
+
+    // many genres belong to a one user
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     // required for the JPA
     public Genre() {
@@ -59,6 +66,16 @@ public class Genre {
     // setter
     public void setAnime(List<Anime> anime) {
         this.anime = anime;
+    }
+
+    // getter
+    public User getUser() {
+        return user;
+    }
+
+    // setter
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
