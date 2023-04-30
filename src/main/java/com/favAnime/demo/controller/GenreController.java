@@ -14,13 +14,6 @@ import java.util.Optional;
 @RequestMapping(path = "/api")
 public class GenreController {
 
-    private GenreRepository genreRepository;
-
-    @Autowired // setter-based dependency injection creates an instance of GenreRepository
-    public void setGenreRepository(GenreRepository genreRepository) {
-        this.genreRepository = genreRepository;
-    }
-
     // sample GET endpoint
     // http://localhost:9090/api/genres
     @GetMapping(path = "/genres")
