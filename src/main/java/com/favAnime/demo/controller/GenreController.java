@@ -65,7 +65,10 @@ public class GenreController {
     // sample DELETE endpoint
     // http://localhost:9090/api/genres/1
     @DeleteMapping(path = "/genres/{genreId}")
-    public String deleteGenre(@PathVariable Long genreId) {
-        return "delete genre " + genreId;
+    public Genre deleteGenre(@PathVariable Long genreId) {
+        // use GET endpoint to handle exception
+        Genre genre = getGenreById(genreId);
+        genreRepository.delete(genre);
+        return genre;
     }
 }
