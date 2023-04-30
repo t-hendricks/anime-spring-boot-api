@@ -24,6 +24,12 @@ public class Anime {
     @JoinColumn(name = "category_id") // the owner of the relationship; FK (id)
     private Genre genre;
 
+    // many animes belong to one user
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     // required for the JPA
     public Anime() {
     }
@@ -72,6 +78,16 @@ public class Anime {
     // setter
     public void setGenre(Genre genre) {
         this.genre = genre;
+    }
+
+    // getter
+    public User getUser() {
+        return user;
+    }
+
+    // setter
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override
