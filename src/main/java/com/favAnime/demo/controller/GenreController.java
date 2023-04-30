@@ -55,8 +55,11 @@ public class GenreController {
     // sample PUT endpoint
     // http://localhost:9090/api/genres/1
     @PutMapping(path = "/genres/{genreId}")
-    public String updateGenre(@PathVariable Long genreId, @RequestBody String body) {
-        return "updating genre " + genreId + " with " + body;
+    public Genre updateGenre(@PathVariable Long genreId, @RequestBody Genre genreObject) {
+        // use GET endpoint to handle exception
+        Genre genre = getGenreById(genreId);
+        genre.setName(genreObject.getName());
+        return genreRepository.save(genre);
     }
 
     // sample DELETE endpoint
