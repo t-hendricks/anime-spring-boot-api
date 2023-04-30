@@ -126,9 +126,24 @@ public class GenreService {
      * @param genreId {Long}
      * @return List of Anime Objects
      */
-    public List<Anime> getGenreAnimes(Long genreId) {
+    public List<Anime> getGenreAnime(Long genreId) {
         // invoke GET endpoint to handle exception
         Genre genre = getGenreById(genreId);
         return genre.getAnime();
+    }
+
+    /**
+     * Get a specific anime from the repository.
+     *
+     * @param animeId {Long}
+     * @return Anime {Object}
+     */
+    public Anime getAnimeById(Long animeId) {
+        try {
+            Optional<Anime> anime = animeRepository.findById(animeId); // findById() returns Optional
+            return anime.get();
+        } catch (RuntimeException e) {
+            throw new InformationNotFoundException("Anime with id " + animeId + " not found ");
+        }
     }
 }
