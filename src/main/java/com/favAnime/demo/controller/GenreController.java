@@ -77,4 +77,11 @@ public class GenreController {
     public Anime getGenreAnimeById(@PathVariable Long genreId, @PathVariable Long animeId) {
         return genreService.getGenreAnimeById(genreId, animeId);
     }
+
+    // PUT update specific anime in specific genre endpoint
+    // http://localhost:9090/api/genres/1/anime/1
+    @PutMapping(path = "/genres/{genreId}/anime/{animeId}")
+    public Anime updateGenreAnime(@PathVariable Long genreId, @PathVariable Long animeId, @RequestBody Anime animeObject) {
+        return genreService.updateGenreAnime(genreId, animeId, animeObject);
+    }
 }

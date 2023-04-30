@@ -106,6 +106,7 @@ public class GenreService {
      * @param genreId {Long}
      * @param animeObject {Object}
      * @return Anime {Object}
+     * @throws InformationExistException
      */
     public Anime createGenreAnime(Long genreId, Anime animeObject) {
         // invoke GET endpoint to handle exception
@@ -133,10 +134,12 @@ public class GenreService {
     }
 
     /**
-     * Get a specific anime from the repository.
+     * Get a specific anime from a specific genre
+     * in the repository.
      *
      * @param animeId {Long}
      * @return Anime {Object}
+     * @throws InformationNotFoundException
      */
     public Anime getGenreAnimeById(Long genreId, Long animeId) {
         // invoke GET endpoint to handle exception
@@ -149,9 +152,21 @@ public class GenreService {
         }
     }
 
-//    public Anime updateGenreAnime(Long genreId, Long animeId, Anime animeObject) {
-//        // invoke GET endpoint to handle exception
-//        Genre genre = getGenreById(genreId);
-//
-//    }
+    /**
+     * Updates a specific anime inside a specific
+     * genre based on given genre id, anime id, and
+     * anime body.
+     *
+     * @param genreId {Long}
+     * @param animeId {Long}
+     * @param animeObject {Object}
+     * @return Anime {Object}
+     */
+    public Anime updateGenreAnime(Long genreId, Long animeId, Anime animeObject) {
+        // invoke GET endpoint to handle exception
+        Anime anime = getGenreAnimeById(genreId, animeId);
+        anime.setName(animeObject.getName());
+        anime.setDescription(animeObject.getDescription());
+        return animeRepository.save(anime);
+    }
 }
