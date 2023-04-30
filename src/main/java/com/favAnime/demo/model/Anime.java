@@ -1,5 +1,7 @@
 package com.favAnime.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity // JPA entity
@@ -15,6 +17,12 @@ public class Anime {
 
     @Column
     private String description;
+
+    // many animes exist only in one genre
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "category_id") // the owner of the relationship; FK (id)
+    private Genre genre;
 
     // required for the JPA
     public Anime() {
@@ -54,6 +62,16 @@ public class Anime {
     // setter
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    // getter
+    public Genre getGenre() {
+        return genre;
+    }
+
+    // setter
+    public void setGenre(Genre genre) {
+        this.genre = genre;
     }
 
     @Override

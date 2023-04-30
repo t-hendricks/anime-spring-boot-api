@@ -1,6 +1,10 @@
 package com.favAnime.demo.model;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
+import java.util.List;
 
 @Entity // JPA entity
 @Table(name = "genres") // table name in DB
@@ -12,6 +16,11 @@ public class Genre {
 
     @Column
     private String name;
+
+    // one genre can contain more than one anime
+    @OneToMany(mappedBy = "genre", orphanRemoval = true) // genre owns the bidirectional relationship
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Anime> anime;
 
     // required for the JPA
     public Genre() {
@@ -40,6 +49,16 @@ public class Genre {
     // setter
     public void setName(String name) {
         this.name = name;
+    }
+
+    // getter
+    public List<Anime> getAnime() {
+        return anime;
+    }
+
+    // setter
+    public void setAnime(List<Anime> anime) {
+        this.anime = anime;
     }
 
     @Override
