@@ -77,10 +77,11 @@ public class GenreService {
      * @throws InformationExistException
      */
     public Genre createGenre(Genre genreObject) {
-        Genre genre = genreRepository.findByName(genreObject.getName());
+        Genre genre = genreRepository.findByUserIdAndName(GenreService.getCurrentLoggedInUser().getId(), genreObject.getName());
         if (genre != null) {
             throw new InformationExistException("Genre with the name " + genre.getName() + " already exist ");
         } else {
+            genreObject.setUser(getCurrentLoggedInUser());
             return genreRepository.save(genreObject);
         }
     }
