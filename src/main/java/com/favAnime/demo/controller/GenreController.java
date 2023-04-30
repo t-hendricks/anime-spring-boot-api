@@ -1,12 +1,14 @@
 package com.favAnime.demo.controller;
 
 import com.favAnime.demo.exception.InformationExistException;
+import com.favAnime.demo.exception.InformationNotFoundException;
 import com.favAnime.demo.model.Genre;
 import com.favAnime.demo.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController // annotated with @ResponseBody; return object in JSON
 @RequestMapping(path = "/api")
@@ -29,8 +31,13 @@ public class GenreController {
     // sample GET endpoint
     // http://localhost:9090/api/genres/1
     @GetMapping(path = "/genres/{genreId}")
-    public String getGenreById(@PathVariable Long genreId) {
-        return "get genre with Id " + genreId;
+    public Genre getGenreById(@PathVariable Long genreId) {
+        try {
+            Optional<Genre> genre = genreRepository.findById(genreId); // findById() returns Optional
+            return genre.get();
+        } catch (RuntimeException e) {
+            throw new InformationNotFoundException("Genre with id " + genreId + " not found ");
+        }
     }
 
     // sample POST endpoint
