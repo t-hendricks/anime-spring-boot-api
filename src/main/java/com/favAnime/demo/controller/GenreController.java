@@ -1,10 +1,19 @@
 package com.favAnime.demo.controller;
 
+import com.favAnime.demo.repository.GenreRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController // annotated with @ResponseBody; return object in JSON
 @RequestMapping(path = "/api")
 public class GenreController {
+
+    private GenreRepository genreRepository;
+
+    @Autowired // setter-based dependency injection creates an instance of GenreRepository
+    public void setGenreRepository(GenreRepository genreRepository) {
+        this.genreRepository = genreRepository;
+    }
 
     // sample GET endpoint
     // http://localhost:9090/api/genres
