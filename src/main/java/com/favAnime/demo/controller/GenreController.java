@@ -3,7 +3,7 @@ package com.favAnime.demo.controller;
 import com.favAnime.demo.exception.InformationExistException;
 import com.favAnime.demo.exception.InformationNotFoundException;
 import com.favAnime.demo.model.Genre;
-import com.favAnime.demo.repository.GenreRepository;
+import com.favAnime.demo.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,11 +14,18 @@ import java.util.Optional;
 @RequestMapping(path = "/api")
 public class GenreController {
 
-    // sample GET endpoint
+    private GenreService genreService;
+
+    @Autowired // setter-based dependency injection creates an instance of GenreService
+    public void setGenreService(GenreService genreService) {
+        this.genreService = genreService;
+    }
+
+    // GET all genres endpoint
     // http://localhost:9090/api/genres
     @GetMapping(path = "/genres")
     public List<Genre> getGenres() {
-        return genreRepository.findAll();
+        return genreService.getGenres();
     }
 
     // sample GET endpoint
