@@ -71,7 +71,7 @@ public class GenreController {
         return genreService.getGenreAnime(genreId);
     }
 
-    // GET specific anime endpoint
+    // GET specific anime from specific genre endpoint
     // http://localhost:9090/api/genres/1/anime/1
     @GetMapping(path = "/genres/{genreId}/anime/{animeId}")
     public Anime getGenreAnimeById(@PathVariable Long genreId, @PathVariable Long animeId) {
@@ -83,5 +83,12 @@ public class GenreController {
     @PutMapping(path = "/genres/{genreId}/anime/{animeId}")
     public Anime updateGenreAnime(@PathVariable Long genreId, @PathVariable Long animeId, @RequestBody Anime animeObject) {
         return genreService.updateGenreAnime(genreId, animeId, animeObject);
+    }
+
+    // DELETE specific anime from specific genre endpoint
+    // http://localhost:9090/api/genres/1/anime/1
+    @DeleteMapping(path = "/genres/{genreId}/anime/{animeId}")
+    public Anime deleteGenreAnime(@PathVariable Long genreId, @PathVariable Long animeId) {
+        return genreService.deleteGenreAnime(genreId, animeId);
     }
 }

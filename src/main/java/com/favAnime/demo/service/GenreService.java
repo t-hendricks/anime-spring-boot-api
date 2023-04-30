@@ -100,7 +100,7 @@ public class GenreService {
     }
 
     /**
-     * Sets a new anime into a genre then adds
+     * Sets a new anime under specific genre then adds
      * the anime to the repository.
      *
      * @param genreId {Long}
@@ -121,8 +121,8 @@ public class GenreService {
     }
 
     /**
-     * Get all existing anime from specific
-     * genre inside the respository.
+     * Get all existing anime under specific
+     * genre inside the repository.
      *
      * @param genreId {Long}
      * @return List of Anime Objects
@@ -134,7 +134,7 @@ public class GenreService {
     }
 
     /**
-     * Get a specific anime from a specific genre
+     * Get a specific anime under specific genre
      * in the repository.
      *
      * @param animeId {Long}
@@ -153,9 +153,9 @@ public class GenreService {
     }
 
     /**
-     * Updates a specific anime inside a specific
+     * Updates a specific anime under specific
      * genre based on given genre id, anime id, and
-     * anime body.
+     * anime body inside the repository.
      *
      * @param genreId {Long}
      * @param animeId {Long}
@@ -168,5 +168,21 @@ public class GenreService {
         anime.setName(animeObject.getName());
         anime.setDescription(animeObject.getDescription());
         return animeRepository.save(anime);
+    }
+
+    /**
+     * Deletes a specific anime under specific
+     * genre based on given genre id and anime id
+     * from the repository.
+     *
+     * @param genreId {Long}
+     * @param animeId {Long}
+     * @return Anime {Object}
+     */
+    public Anime deleteGenreAnime(Long genreId, Long animeId) {
+        // invoke GET endpoint to handle exception
+        Anime anime = getGenreAnimeById(genreId, animeId);
+        animeRepository.delete(anime);
+        return anime;
     }
 }
