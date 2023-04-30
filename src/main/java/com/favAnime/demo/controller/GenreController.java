@@ -72,9 +72,9 @@ public class GenreController {
     }
 
     // GET specific anime endpoint
-    // http://localhost:9090/api/anime/1
-    @GetMapping(path = "/anime/{animeId}")
-    public Anime getAnimeById(@PathVariable Long animeId) {
-        return genreService.getAnimeById(animeId);
+    // http://localhost:9090/api/genres/1/anime/1
+    @GetMapping(path = "/genres/{genreId}/anime/{animeId}")
+    public Anime getGenreAnimeById(@PathVariable Long genreId, @PathVariable Long animeId) {
+        return genreService.getGenreAnimeById(genreId, animeId);
     }
 }
