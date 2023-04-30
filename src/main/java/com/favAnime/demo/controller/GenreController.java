@@ -26,4 +26,18 @@ public class GenreController {
     public String createGenre(@RequestBody String body) {
         return "creating a new genre with " + body;
     }
+
+    // sample PUT endpoint
+    // http://localhost:9090/api/genres/1
+    @PutMapping(path = "/genres/{genreId}")
+    public String updateGenre(@PathVariable Long genreId, @RequestBody String body) {
+        return "updating genre " + genreId + " with " + body;
+    }
+
+    // sample DELETE endpoint
+    // http://localhost:9090/api/genres/1
+    @DeleteMapping(path = "/genres/{genreId}")
+    public String deleteGenre(@PathVariable Long genreId) {
+        return "delete genre " + genreId;
+    }
 }
