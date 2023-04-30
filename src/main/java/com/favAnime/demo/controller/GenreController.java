@@ -1,5 +1,7 @@
 package com.favAnime.demo.controller;
 
+import com.favAnime.demo.exception.InformationExistException;
+import com.favAnime.demo.model.Genre;
 import com.favAnime.demo.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +34,13 @@ public class GenreController {
     // sample POST endpoint
     // http://localhost:9090/api/genres
     @PostMapping(path = "/genres")
-    public String createGenre(@RequestBody String body) {
-        return "creating a new genre with " + body;
+    public Genre createGenre(@RequestBody Genre genreObject) {
+        Genre genre = genreRepository.findByName(genreObject.getName());
+        if (genre != null) {
+            throw new InformationExistException("Genre with the name " + genre.getName() + " already exist ");
+        } else {
+            return genreRepository.save(genreObject);
+        }
     }
 
     // sample PUT endpoint
