@@ -3,7 +3,7 @@ package com.favAnime.demo.model;
 import javax.persistence.*;
 
 @Entity // JPA entity
-@Table(name = "genres") // name of table in DB
+@Table(name = "genres") // table name in DB
 public class Genre {
     @Id
     @Column
