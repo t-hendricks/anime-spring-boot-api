@@ -6,6 +6,8 @@ import com.favAnime.demo.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController // annotated with @ResponseBody; return object in JSON
 @RequestMapping(path = "/api")
 public class GenreController {
@@ -20,8 +22,8 @@ public class GenreController {
     // sample GET endpoint
     // http://localhost:9090/api/genres
     @GetMapping(path = "/genres")
-    public String getGenres() {
-        return "get all genres";
+    public List<Genre> getGenres() {
+        return genreRepository.findAll();
     }
 
     // sample GET endpoint
