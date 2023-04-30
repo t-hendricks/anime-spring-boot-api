@@ -2,7 +2,9 @@ package com.favAnime.demo.service;
 
 import com.favAnime.demo.exception.InformationExistException;
 import com.favAnime.demo.exception.InformationNotFoundException;
+import com.favAnime.demo.model.Anime;
 import com.favAnime.demo.model.Genre;
+import com.favAnime.demo.repository.AnimeRepository;
 import com.favAnime.demo.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +16,16 @@ import java.util.Optional;
 public class GenreService {
 
     private GenreRepository genreRepository;
+    private AnimeRepository animeRepository;
 
     @Autowired // setter-based dependency injection creates an instance of GenreRepository
     public void setGenreRepository(GenreRepository genreRepository) {
         this.genreRepository = genreRepository;
+    }
+
+    @Autowired // sett-based dependency injection creates an instance of AnimeRepository
+    public void setAnimeRepository(AnimeRepository animeRepository) {
+        this.animeRepository = animeRepository;
     }
 
     /**
@@ -89,5 +97,25 @@ public class GenreService {
         Genre genre = getGenreById(genreId);
         genreRepository.delete(genre);
         return genre;
+    }
+
+    /**
+     * Sets a new anime into a genre then adds
+     * the anime to the repository.
+     *
+     * @param genreId {Long}
+     * @param animeObject {Object}
+     * @return Anime {Object}
+     */
+    public Anime createGenreAnime(Long genreId, Anime animeObject) {
+        // invoke GET endpoint to handle exception
+        Genre genre = getGenreById(genreId);
+        boolean animeExist = genre.getAnime().stream().anyMatch(a -> a.getName().equals(animeObject.getName()));
+        if (animeExist) {
+            throw new InformationExistException("Anime with the name " + animeObject.getName() + " already exist ");
+        } else {
+            animeObject.setGenre(genre);
+            return animeRepository.save(animeObject);
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.favAnime.demo.controller;
 
 import com.favAnime.demo.exception.InformationExistException;
 import com.favAnime.demo.exception.InformationNotFoundException;
+import com.favAnime.demo.model.Anime;
 import com.favAnime.demo.model.Genre;
 import com.favAnime.demo.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +55,12 @@ public class GenreController {
     @DeleteMapping(path = "/genres/{genreId}")
     public Genre deleteGenre(@PathVariable Long genreId) {
         return genreService.deleteGenre(genreId);
+    }
+
+    // POST add anime to specific genre endpoint
+    // http://localhost:9090/api/genres/1/anime
+    @PostMapping(path = "/genres/{genreId}/anime")
+    public Anime createGenreAnime(@PathVariable Long genreId, @RequestBody Anime animeObject) {
+        return genreService.createGenreAnime(genreId, animeObject);
     }
 }
