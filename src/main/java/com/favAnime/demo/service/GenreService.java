@@ -134,9 +134,11 @@ public class GenreService {
         Genre genre = getGenreById(genreId);
         boolean animeExist = genre.getAnime().stream().anyMatch(a -> a.getName().equals(animeObject.getName()));
         if (animeExist) {
-            throw new InformationExistException("Anime with the name " + animeObject.getName() + " already exist ");
+            throw new InformationExistException("Anime with the name " + animeObject.getName() +
+                    " already exist for user id " + GenreService.getCurrentLoggedInUser().getId());
         } else {
             animeObject.setGenre(genre);
+            animeObject.setUser(getCurrentLoggedInUser());
             return animeRepository.save(animeObject);
         }
     }
@@ -169,7 +171,8 @@ public class GenreService {
            Optional<Anime> anime = genre.getAnime().stream().filter(a -> a.getId().equals(animeId)).findFirst();
            return anime.get();
         } catch (RuntimeException e) {
-            throw new InformationNotFoundException("Anime with id " + animeId + " not found ");
+            throw new InformationNotFoundException("Anime with id " + animeId +
+                    " not found for user id " + GenreService.getCurrentLoggedInUser().getId());
         }
     }
 
