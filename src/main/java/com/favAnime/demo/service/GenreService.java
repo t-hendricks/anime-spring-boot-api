@@ -54,23 +54,27 @@ public class GenreService {
 
     /**
      * Gets a specific existing genre from the repository
-     * based on the given genre id.
+     * based on the given genre id for current logged-in
+     * user.
      *
      * @param genreId {Long}
      * @return Genre {Object}
      * @throws InformationNotFoundException
      */
     public Genre getGenreById(Long genreId) {
-        try {
-            Optional<Genre> genre = genreRepository.findById(genreId); // findById() returns Optional
-            return genre.get();
-        } catch (RuntimeException e) {
-            throw new InformationNotFoundException("Genre with id " + genreId + " not found ");
+        Genre genre = genreRepository.findByIdAndUserId(genreId,
+                GenreService.getCurrentLoggedInUser().getId());
+        if (genre != null) {
+            return genre;
+        } else {
+            throw new InformationNotFoundException("Genre with id " + genreId +
+                    " not found for user id " + GenreService.getCurrentLoggedInUser().getId());
         }
     }
 
     /**
-     * Adds a new genre into the repository.
+     * Adds a new genre into the repository for current
+     * logged-in user.
      *
      * @param genreObject {Object}
      * @return Genre {Object}
@@ -79,7 +83,8 @@ public class GenreService {
     public Genre createGenre(Genre genreObject) {
         Genre genre = genreRepository.findByUserIdAndName(GenreService.getCurrentLoggedInUser().getId(), genreObject.getName());
         if (genre != null) {
-            throw new InformationExistException("Genre with the name " + genre.getName() + " already exist ");
+            throw new InformationExistException("Genre with the name " + genre.getName() +
+                    " already exist for user id " + GenreService.getCurrentLoggedInUser().getId());
         } else {
             genreObject.setUser(getCurrentLoggedInUser());
             return genreRepository.save(genreObject);

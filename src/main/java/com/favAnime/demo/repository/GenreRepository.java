@@ -15,7 +15,7 @@ public interface GenreRepository extends JpaRepository<Genre, Long> {
     List<Genre> findByUserId(Long userId);
 
     // get genre by id and user id
-   Genre findByIdAndUserId(Long categoryId, Long userId);
+   Genre findByIdAndUserId(Long genreId, Long userId);
 
     // trying to find genre with name and user id
     Genre findByUserIdAndName(Long userId, String genreName);
