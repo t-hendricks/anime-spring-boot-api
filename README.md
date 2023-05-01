@@ -5,7 +5,7 @@ data from a relational database. Developers will be able to modify Genres and An
 
 Postman Page
 
-![Screenshot of Postmant: API-Test](./images/screenshot.png)
+![Screenshot of Postman: API-Test](./images/Screenshot.png)
 
 ## Technologies Used
 - ### Version Control:
