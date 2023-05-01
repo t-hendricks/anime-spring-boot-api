@@ -36,7 +36,7 @@ Genre endpoints.
 [Issues](https://github.com/t-hendricks/springboot-anime-api/issues?q=is%3Aissue+is%3Aclosed)
 
 ## Bugs
-- Duplicate Anime records with different Genres.
+- Duplicated Anime records with different Genres.
 
 ## Future Plans
 - Refactor POST endpoint for Anime model to eleminate duplicate records.
